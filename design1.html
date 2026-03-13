@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Youth Account Management — Play Design System UI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Mulish:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Typography */
+      --font-body: 'Inter', sans-serif;
+      --font-heading: 'Mulish', sans-serif;
+      --fs-caption: 0.75rem;
+      --fs-label: 0.75rem;
+      --fs-small: 0.875rem;
+      --fs-body: 1rem;
+      --fs-sub2: 1.25rem;
+      --fs-sub1: 1.5rem;
+      --fs-h6: 1.75rem;
+      --fs-h5: 2rem;
+      --fw-regular: 400;
+      --fw-medium: 500;
+      --fw-semi: 600;
+      --fw-bold: 700;
+      --lh-body: 1.5rem;
+      --lh-label: 1rem;
+
+      /* Spacing */
+      --sp-2: 0.25rem;
+      --sp-3: 0.5rem;
+      --sp-4: 0.75rem;
+      --sp-5: 1rem;
+      --sp-6: 1.25rem;
+      --sp-7: 1.5rem;
+      --sp-8: 1.75rem;
+      --sp-9: 2rem;
+      --sp-10: 2.25rem;
+      --sp-12: 3rem;
+      --sp-14: 4rem;
+
+      /* Card */
+      --awe-card-border-radius: 6px;
+      --awe-card-padding-small: 16px;
+      --awe-card-padding-medium: 24px;
+      --awe-card-padding-large: 32px;
+      --awe-card-shadow: 0 2px 4px rgba(0,0,0,0.16);
+      --awe-card-shadow-elevated: 0 8px 16px rgba(0,0,0,0.16);
+
+      /* Surfaces */
+      --surface: #ffffff;
+      --surface-subtle: #fafafa;
+      --N-100: #ededf3;
+      --N-200: #dadce7;
+      --N-1000: #292c3d;
+      --N-1050: #14161f;
+
+      /* Brand */
+      --primary-color: #018266;
+      --primary-hover: #01b48d;
+      --primary-active: #01654f;
+      --secondary-color: #ffffff;
+      --secondary-hover: #f1f2f7;
+      --secondary-active: #fafafa;
+      --danger-color: #c9372c;
+      --danger-hover: #ab2e25;
+      --warning-color: #B88A00;
+      --warning-hover: #ffbf00;
+      --white: #fff;
+      --border-color: #018266;
+      --text-color: #292c3d;
+
+      /* Status */
+      --danger: #c9372c;
+      --danger-h: #ab2e25;
+      --warning: #B88A00;
+      --warn-bg: #ffbf00;
+      --info: #6566cd;
+
+      /* Icons */
+      --icon-action: #019978;
+      --icon-neutral: #666d99;
+      --icon-disabled: #858aad;
+      --icon-warning: #ffbf00;
+      --icon-success: #02d4a6;
+
+      /* Text */
+      --t-title: #14161f;
+      --t-subtitle: #292c3d;
+      --t-body: #33364d;
+      --t-caption: #666d99;
+      --t-disabled: #a3a7c2;
+      --t-white: #ffffff;
+
+      /* Input */
+      --input-border: #858aad;
+
+      /* Sidebar */
+      --sidebar-w: 244px;
+
+      /* Header */
+      --header-h: 64px;
+
+      /* Progress */
+      --prog-track: #e0e0e0;
+
+      /* Badges */
+      --badge-success-bg: #02d4a6;
+      --badge-success-text: #003328;
+      --badge-warning-bg: #ffbf00;
+      --badge-warning-text: #332600;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; }
+    body {
+      font-family: var(--font-body);
+      background: #f1f2f7;
+      color: var(--t-body);
+      min-height: 100vh;
+    }
+    ul { list-style: none; }
+    a { text-decoration: none; color: inherit; }
+    button { cursor: pointer; font-family: var(--font-body); }
+    input, select, textarea { font-family: var(--font-body); }
+
+    /* App Shell */
+    .app-shell { display: flex; min-height: 100vh; }
+
+    /* Sidebar */
+    .sidebar-container {
+      width: var(--sidebar-w); min-width: var(--sidebar-w);
+      height: 100vh; position: sticky; top: 0;
+      display: flex; flex-direction: column;
+      background: var(--surface); border-right: 0.5px solid var(--N-100);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+      padding: var(--sp-7) var(--sp-5) var(--sp-7) var(--sp-3);
+      overflow-y: auto; z-index: 100;
+    }
+    .sidebar-brand {
+      display: flex; align-items: center; gap: var(--sp-4);
+      padding: var(--sp-3) var(--sp-3);
+      margin-bottom: var(--sp-9);
+    }
+    .brand-mark {
+      width: 36px; height: 36px; border-radius: var(--awe-card-border-radius);
+      background: #2e308e;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; flex-shrink: 0;
+    }
+    .brand-name {
+      font-family: var(--font-heading);
+      font-size: var(--fs-sub2); font-weight: var(--fw-bold);
+      color: var(--t-title); letter-spacing: -0.01em;
+    }
+    .sidebar-section {
+      font-size: var(--fs-caption); font-weight: var(--fw-bold);
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--t-caption);
+      padding: 0 var(--sp-3); margin-bottom: var(--sp-3);
+    }
+    .sidebar ul { display: flex; flex-direction: column; gap: 2px; width: 100%; margin-bottom: var(--sp-7); }
+    .sidebar li {
+      display: flex; align-items: center; gap: var(--sp-3);
+      padding: var(--sp-3) var(--sp-3); border-radius: var(--awe-card-border-radius);
+      cursor: pointer; font-size: var(--fs-small); color: var(--icon-neutral); font-weight: var(--fw-medium);
+      transition: background 0.18s;
+    }
+    .sidebar li:hover { background: var(--N-100); }
+    .sidebar li.active { background: #eef0ff; }
+    .sidebar li.active .nav-label { color: #3b3db0; font-weight: var(--fw-semi); }
+    .nav-icon { font-size: 1rem; width: 20px; text-align: center; flex-shrink: 0; }
+    .nav-label { flex: 1; }
+    .nav-badge {
+      font-size: 10px; font-weight: var(--fw-bold);
+      background: var(--danger); color: var(--t-white);
+      border-radius: 62.5rem; padding: 1px 6px;
+    }
+    .nav-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: #3b3db0; flex-shrink: 0;
+    }
+    .sidebar-divider { border: none; border-top: 1px solid var(--N-100); margin: var(--sp-4) 0; }
+    .sidebar-parent {
+      margin-top: auto; display: flex; align-items: center; gap: var(--sp-3);
+      padding: var(--sp-4) var(--sp-3); border: 1px solid var(--N-100); border-radius: var(--awe-card-border-radius);
+      cursor: pointer; transition: background 0.15s;
+    }
+    .sidebar-parent:hover { background: var(--N-100); }
+    .parent-avatar {
+      width: 34px; height: 34px; border-radius: 50%; background: #eef0ff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: var(--fs-caption); font-weight: var(--fw-bold); color: #3b3db0; flex-shrink: 0;
+    }
+    .parent-name { font-size: var(--fs-small); font-weight: var(--fw-semi); color: var(--t-title); }
+    .parent-role { font-size: var(--fs-caption); color: var(--t-caption); }
+
+    /* Main Viewport */
+    .main-viewport { flex: 1; display: flex; flex-direction: column; min-width: 0; overflow-y: auto; height: 100vh; }
+
+    /* Header */
+    .outer-box {
+      height: var(--header-h); background: var(--surface); border-bottom: 1px solid var(--N-100);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05); display: flex; align-items: center;
+      justify-content: space-between; padding: 0 var(--sp-9); position: sticky; top: 0; z-index: 50; gap: var(--sp-5);
+    }
+    .search-field {
+      display: flex; align-items: center; gap: var(--sp-3);
+      background: var(--N-100); border-radius: 62.5rem; padding: var(--sp-3) var(--sp-5); width: 280px;
+      transition: background 0.18s;
+    }
+    .search-field:focus-within { background: var(--surface); box-shadow: 0 0 0 2px #3b3db0; }
+    .search-field input { border: none; outline: none; background: none; font-size: var(--fs-small); color: var(--t-body); width: 100%; }
+    .search-field input::placeholder { color: var(--t-disabled); }
+    .header-right { display: flex; align-items: center; gap: var(--sp-4); }
+    .icon-btn {
+      width: 36px; height: 36px; border-radius: 50%; background: var(--N-100); border: none;
+      display: flex; align-items: center; justify-content: center; font-size: 1rem; color: var(--icon-neutral);
+      cursor: pointer; transition: background 0.15s; position: relative;
+    }
+    .icon-btn:hover { background: var(--N-200); }
+    .notif-dot {
+      width: 8px; height: 8px; border-radius: 50%; background: var(--danger); border: 2px solid var(--surface);
+      position: absolute; top: 4px; right: 4px;
+    }
+    .header-avatar {
+      width: 36px; height: 36px; border-radius: 50%; background: #eef0ff; border: 2px solid #8b8dda;
+      display: flex; align-items: center; justify-content: center; font-size: var(--fs-caption);
+      font-weight: var(--fw-bold); color: #3b3db0; cursor: pointer;
+    }
+    .header-name { font-size: var(--fs-small); font-weight: var(--fw-semi); color: var(--t-title); }
+
+    /* Screen System */
+    .screen { display: none; }
+    .screen.active { display: block; animation: fadeUp 0.22s ease; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+    .page-content { padding: var(--sp-9); }
+
+    /* Typography */
+    .page-title { font-family: var(--font-heading); font-size: var(--fs-h6); font-weight: var(--fw-bold); color: var(--t-title); letter-spacing: -0.02em; line-height: 1.2; }
+    .page-sub { font-size: var(--fs-small); color: var(--t-caption); margin-top: 4px; }
+    .section-label { font-size: var(--fs-caption); font-weight: var(--fw-bold); text-transform: uppercase; letter-spacing: 0.08em; color: var(--t-caption); margin-bottom: var(--sp-4); }
+
+    /* Button */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      border: none; border-radius: var(--awe-card-border-radius);
+      font-family: var(--font-body); font-size: var(--fs-body);
+      font-weight: var(--fw-semi); padding: var(--sp-4) var(--sp-7);
+      transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
+      white-space: nowrap; cursor: pointer; letter-spacing: 0.01em;
+    }
+    .btn.primary { background: var(--primary-color); color: var(--t-white); }
+    .btn.primary:hover { background: var(--primary-hover); box-shadow: 0 4px 14px rgba(1,130,102,0.28); transform: translateY(-1px); }
+    .btn.primary:active { background: var(--primary-active); transform: none; }
+    .btn.secondary { background: var(--secondary-color); color: var(--primary-color); border: 1.5px solid var(--border-color); }
+    .btn.secondary:hover { background: var(--secondary-hover); }
+    .btn.danger { background: var(--danger-color); color: var(--t-white); }
+    .btn.danger:hover { background: var(--danger-hover); }
+    .btn.ghost { background: transparent; color: var(--t-caption); border: none; }
+    .btn.ghost:hover { background: var(--N-100); color: var(--t-body); }
+    .btn.small { font-size: var(--fs-small); padding: var(--sp-3) var(--sp-5); }
+    .btn.large { padding: var(--sp-5) var(--sp-9); font-size: var(--fs-sub2); }
+    .btn.pill { border-radius: 62.5rem; }
+    .btn.full { width: 100%; }
+
+    /* Card */
+    .awe-card {
+      position: relative; display: flex; flex-direction: column;
+      border-radius: var(--awe-card-border-radius); overflow: hidden; transition: box-shadow 0.25s;
+      background: var(--surface); border: 1px solid var(--N-100); box-shadow: var(--awe-card-shadow); color: var(--N-1000);
+      margin-bottom: var(--sp-7);
+    }
+    .awe-card:hover { box-shadow: var(--awe-card-shadow-elevated); }
+    .awe-card.sm { padding: var(--awe-card-padding-small); }
+    .awe-card.md { padding: var(--awe-card-padding-medium); }
+    .awe-card.auto { padding: 20px; }
+    .card-header { padding: 14px 20px; border-bottom: 1px solid var(--N-100); }
+    .card-footer { padding: 12px 20px; border-top: 1px solid var(--N-100); background: var(--surface-subtle); margin-top: auto; }
+
+    /* Responsive */
+    @media (max-width: 1100px) {
+      .sidebar-container { min-width: 180px; }
+      .main-viewport { padding: var(--sp-5); }
+    }
+    @media (max-width: 768px) {
+      .sidebar-container { display: none; }
+      .main-viewport { padding: var(--sp-3); }
+    }
+  </style>
+</head>
+<body>
+<div class="app-shell">
+  <!-- SIDEBAR -->
+  <aside class="sidebar-container">
+    <div class="sidebar-brand">
+      <div class="brand-mark">🏦</div>
+      <span class="brand-name">YouthBank</span>
+    </div>
+    <div class="sidebar">
+      <p class="sidebar-section">Main</p>
+      <ul>
+        <li class="active" onclick="setNav(this,'s1')">
+          <span class="nav-icon">👦</span>
+          <span class="nav-label">Youth Dashboard</span>
+          <div class="nav-dot"></div>
+        </li>
+        <li onclick="setNav(this,'s2')">
+          <span class="nav-icon">💸</span>
+          <span class="nav-label">Add Funds</span>
+        </li>
+        <li onclick="setNav(this,'s5')">
+          <span class="nav-icon">🔒</span>
+          <span class="nav-label">Set Limit</span>
+        </li>
+        <li onclick="setNav(this,'s8')">
+          <span class="nav-icon">📊</span>
+          <span class="nav-label">View Activity</span>
+        </li>
+        <li onclick="setNav(this,'s4')">
+          <span class="nav-icon">⚠️</span>
+          <span class="nav-label">Errors & Overview</span>
+        </li>
+      </ul>
+    </div>
+    <div class="sidebar-parent">
+      <div class="parent-avatar">PR</div>
+      <div>
+        <div class="parent-name">Patricia Reynolds</div>
+        <div class="parent-role">Parent / Guardian</div>
+      </div>
+    </div>
+  </aside>
+  <!-- MAIN VIEWPORT -->
+  <main class="main-viewport">
+    <!-- HEADER -->
+    <header class="outer-box">
+      <div class="search-field">
+        <span style="color:var(--icon-neutral);">🔍</span>
+        <input type="text" placeholder="Search youth accounts, activity…"/>
+      </div>
+      <div class="header-right">
+        <button class="icon-btn">
+          🔔
+          <div class="notif-dot"></div>
+        </button>
+        <button class="icon-btn">❓</button>
+        <div class="header-avatar">PR</div>
+        <span class="header-name">Patricia Reynolds</span>
+      </div>
+    </header>
+    <!-- SCREEN 1: Youth Account Dashboard -->
+    <div id="s1" class="screen active">
+      <div class="page-content">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Youth Account Dashboard</h1>
+            <p class="page-sub">Overview for Jamie Reynolds · Age 13</p>
+          </div>
+          <button class="btn primary" onclick="showS('s2')">+ Add Funds</button>
+        </div>
+        <div class="awe-card auto">
+          <div class="card-header">
+            <div class="section-label">Account Summary</div>
+          </div>
+          <div style="padding:var(--sp-5) 20px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--sp-7);">
+              <div>
+                <div style="font-size:var(--fs-sub1);font-weight:var(--fw-bold);color:var(--t-title);">Balance</div>
+                <div style="font-size:var(--fs-h6);font-weight:var(--fw-bold);color:#018266;">$120.00</div>
+              </div>
+              <div>
+                <div style="font-size:var(--fs-small);color:var(--t-caption);margin-bottom:var(--sp-3);">Weekly Limit</div>
+                <div style="font-size:var(--fs-sub2);font-weight:var(--fw-semi);color:#3b3db0;">$40.00</div>
+              </div>
+              <button class="btn secondary small" onclick="showS('s5')">Edit Limit</button>
+            </div>
+            <div style="display:flex;gap:var(--sp-7);margin-bottom:var(--sp-7);">
+              <button class="btn primary" onclick="showS('s2')">Add Funds</button>
+              <button class="btn secondary" onclick="showS('s5')">Set Limit</button>
+              <button class="btn ghost" onclick="showS('s8')">View Activity</button>
+            </div>
+            <div style="font-size:var(--fs-caption);color:var(--t-caption);margin-bottom:var(--sp-4);">Recent Transactions</div>
+            <div style="display:flex;flex-direction:column;gap:var(--sp-3);">
+              <div style="display:flex;justify-content:space-between;">
+                <span>2024-06-10 · Amazon</span><span style="color:var(--danger);">- $12.99</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;">
+                <span>2024-06-09 · Starbucks</span><span style="color:var(--danger);">- $4.25</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;">
+                <span>2024-06-08 · Allowance</span><span style="color:var(--icon-success);">+ $20.00</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="awe-card auto" style="background:var(--surface-subtle);">
+          <div style="padding:var(--sp-5);font-size:var(--fs-small);color:var(--t-caption);">
+            <span>Tip: Teach your child about savings by setting goals together!</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- SCREEN 2: Add Funds Modal/Stepper -->
+    <div id="s2" class="screen">
+      <div class="page-content">
+        <div class="page-header">
+          <div>
+            <nav style="display:flex;align-items:center;gap:var(--sp-2);font-size:var(--fs-caption);color:var(--t-caption);margin-bottom:var(--sp-4);">
+              <span onclick="showS('s1')" style="cursor:pointer;color:var(--t-body);">Dashboard</span>
+              <span>›</span>
+              <span style="color:#3b3db0;font-weight:var(--fw-semi);">Add Funds</span>
+            </nav>
+            <h1 class="page-title">Add Funds to Youth Account</h1>
+            <p class="page-sub">Transfer money securely to Jamie's account</p>
+          </div>
+          <button class="btn ghost small" onclick="showS('s1')">← Cancel</button>
+        </div>
+        <div class="awe-card auto">
+          <div style="padding:var(--sp-7);">
+            <div class="section-label">Select Source Account</div>
+            <div class="input-container fluid" style="margin-bottom:var(--sp-5);">
+              <label>From</label>
+              <div class="input-wrapper">
+                <select>
+                  <option>Parent Checking - $4,500.00</option>
+                  <option>Parent Savings - $2,000.00</option>
+                </select>
+              </div>
+            </div>
+            <div class="section-label" style="margin-top:var(--sp-5);">Amount</div>
+            <div class="input-wrapper tall" style="height:auto;min-height:52px;align-items:flex-start;margin-bottom:var(--sp-5);">
+              <input type="number" min="1" max="1000" placeholder="Enter amount" style="width:100%;border:none;outline:none;background:none;font-size:var(--fs-small);color:var(--t-body);"/>
+            </div>
+            <div style="margin-bottom:var(--sp-5);">
+              <button class="btn ghost small">$10</button>
+              <button class="btn ghost small">$25</button>
+              <button class="btn ghost small">$50</button>
+            </div>
+            <div class="section-label" style="margin-top:var(--sp-5);">Description (optional)</div>
+            <div class="input-wrapper tall" style="height:auto;min-height:52px;align-items:flex-start;">
+              <input type="text" placeholder="e.g., Allowance" style="width:100%;border:none;outline:none;background:none;font-size:var(--fs-small);color:var(--t-body);"/>
+            </div>
+            <div class="action-row" style="margin-top:var(--sp-7);gap:var(--sp-4);">
+              <button class="btn secondary" onclick="showS('s1')">Cancel</button>
+              <button class="btn primary" onclick="showS('s3')">Continue</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- SCREEN 3: Transfer Confirmation Pop-Up -->
+    <div id="s3" class="screen">
+      <div class="page-content">
+        <div class="awe-card auto" style="max-width:420px;margin:40px auto;">
+          <div style="padding:var(--sp-7);">
+            <h2 class="page-title" style="font-size:var(--fs-sub1);margin-bottom:var(--sp-5);">Confirm Transfer</h2>
+            <div style="display:flex;flex-direction:column;gap:var(--sp-3);margin-bottom:var(--sp-7);">
+              <div style="display:flex;justify-content:space-between;"><span>From:</span><span>Parent Checking</span></div>
+              <div style="display:flex;justify-content:space-between;"><span>To:</span><span>Youth Account</span></div>
+              <div style="display:flex;justify-content:space-between;"><span>Amount:</span><span>$25.00</span></div>
+              <div style="display:flex;justify-content:space-between;"><span>Description:</span><span>Allowance</span></div>
+            </div>
+            <div class="action-row" style="justify-content:flex-end;gap:var(--sp-4);">
+              <button class="btn ghost small" onclick="showS('s2')">Back</button>
+              <button class="btn primary" onclick="showS('s4')">Confirm Transfer</button>
+            </div>
+            <div style="font-size:var(--fs-caption);color:var(--t-caption);margin-top:var(--sp-7);">
+              Tip: Transfers are instant and secure.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- SCREEN 4: Error & Account Overview -->
+    <div id="s4" class="screen">
+      <div class="page-content">
+        <div class="awe-card auto" style="max-width:420px;margin:40px auto;border-left:4px solid var(--danger);background:#fff2f1;">
+          <div style="padding:var(--sp-7);">
+            <h2 class="page-title" style="font-size:var(--fs-sub1);color:var(--danger);margin-bottom:var(--sp-5);">Error: Insufficient Balance</h2>
+            <div style="font-size:var(--fs-small);color:var(--danger);margin-bottom:var(--sp-5);">Insufficient funds in selected account.</div>
+            <div style="font-size:var(--fs-caption);color:var(--t-caption);margin-bottom:var(--sp-5);">Your available balance is $10.00. Try a lower amount or choose another account.</div>
+            <div class="action-row" style="gap:var(--sp-4);">
+              <button class="btn primary small" onclick="showS('s2')">Try Again</button>
+              <button class="btn ghost small" onclick="showS('s10')">View Account Overview</button>
+            </div>
+          </div>
+        </div>
+        <div class="awe-card auto" style="max-width:420px;margin:24px auto;">
+          <div style="padding:var(--sp-7);">
+            <h2 class="page-title" style="font-size:var(--fs-sub1);margin-bottom:var(--sp-5);">Account Overview</h2>
+            <div style="display:flex;flex-direction:column;gap:var(--sp-3);">
+              <div style="display:flex;justify-content:space-between;"><span>Parent Checking</span><span>$10.00</span></div>
+              <div style="display:flex;justify-content:space-between;"><span>Parent Savings</span><span>$2,000.00</span></div>
+            </div>
+            <div class="action-row" style="margin-top:var(--sp-5);gap:var(--sp-4);">
+              <button class="btn secondary small" onclick="showS('s2')">Back to Transfer</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- SCREEN 5: Set Spending Limit -->
+    <div id="s5" class="screen">
+      <div class="page-content">
+        <div class="awe-card auto" style="max-width:420px;margin:40px auto;">
+          <div style="padding:var(--sp-7);">
+            <h2 class="page-title" style="font-size:var(--fs-sub1);margin-bottom:var(--sp-5);">Set Weekly Spending Limit</h2>
+            <div style="display:flex;justify-content:space-between;margin-bottom:var(--sp-5);">
+              <span>Current Limit</span>
+              <span style="color:#3b3db0;font-weight:var(--fw-semi);">$40.00</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:var(--sp-5);">
+              <span>Suggested (peers)</span>
+              <span style="color:var(--icon-success);">$30.00 – $50.00</span>
+            </div>
+            <div class="input-container fluid" style="margin-bottom:var(--sp-5);">
+              <label>New Limit</label>
+              <div class="input-wrapper tall" style="height:auto;min-height:52px;align-items:flex-start;">
+                <input type="number" min="1" max="200" placeholder="Enter amount" style="width:100%;border:none;outline:none;background:none;font-size:var(--fs-small);color:var(--t-body);"/>
+              </div>
+            </div>
+            <div class="action-row" style="gap:var(--sp-4);margin-top:var(--sp-7);">
+              <button class="btn secondary" onclick="showS('s1')">Cancel</button>
+              <button class="btn primary" onclick="showS('s6')">Save</button>
+            </div>
+            <div style="font-size:var(--fs-caption);color:var(--t-caption);margin-top:var(--sp-7);">Tip: Limits help teach budgeting skills.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- SCREEN 6: Limit Confirmation Pop-Up -->
+    <div id="s6" class="screen">
+      <div class="page-content">
+        <div class="awe-card auto" style="max-width:420px;margin:40px auto;">
+          <div style="padding:var(--sp-7);">
+            <h2 class="page-title" style="font-size:var(--fs-sub1);margin-bottom:var(--sp-5);">Confirm Limit Change</h2>
+            <div style="display:flex;flex-direction:column;gap:var(--sp-3);margin-bottom:var(--sp-7);">
+              <div style="display:flex;justify-content:space-between;"><span>Old Limit</span><span>$40.00</span></div>
+              <div style="display:flex;justify-content:space-between;"><span>New Limit</span><span>$50.00</span></div>
+            </div>
+            <div style="font-size:var(--fs-caption);color:var(--t-caption);margin-bottom:var(--sp-5);">Changing the spending limit helps your child learn budgeting. Are you sure?</div>
+            <div class="action-row" style="gap:var(--sp-4);justify-content:flex-end;">
+              <button class="btn ghost small" onclick="showS('s5')">Back</button>
+              <button class="btn primary" onclick="showS('s1')">Confirm</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- SCREEN 7: Invalid Limit Error -->
+    <div id="s7" class="screen">
+      <div class="page-content">
+        <div class="awe-card auto" style="max-width:420px;margin:40px auto;border-left:4px solid var(--danger);background:#fff2f1;">
+          <div style="padding:var(--sp-7);">
+            <h2 class="page-title" style="font-size:var(--fs-sub1);color:var(--danger);margin-bottom:var(--sp-5);">Error: Invalid Limit</h2>
+            <div style="font-size:var(--fs-small);color:var(--danger);margin-bottom:var(--sp-5);">Limit must be between $1 and $200</div>
+            <div style="font-size:var(--fs-caption);color:var(--t-caption);margin-bottom:var(--sp-5);">Suggested: $30.00 – $50.00</div>
+            <div class="action-row" style="gap:var(--sp-4);">
+              <button class="btn primary small" onclick="showS('s5')">Try Again</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- SCREEN 8: Youth Account Activity View -->
+    <div id="s8" class="screen">
+      <div class="page-content">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Youth Account Activity</h1>
+            <p class="page-sub">Transaction history for Jamie Reynolds</p>
+          </div>
+        </div>
+        <div class="awe-card auto">
+          <div style="padding:var(--sp-7);">
+            <div class="section-label">Filters</div>
+            <div style="display:flex;gap:var(--sp-4);margin-bottom:var(--sp-5);">
+              <label>Date: <input type="date" style="font-size:var(--fs-small);border:1px solid var(--input-border);border-radius:var(--awe-card-border-radius);padding:var(--sp-3);"/></label>
+              <label>Amount: <input type="number" style="font-size:var(--fs-small);border:1px solid var(--input-border);border-radius:var(--awe-card-border-radius);padding:var(--sp-3);width:80px;"/></label>
+              <label>Merchant: <input type="text" style="font-size:var(--fs-small);border:1px solid var(--input-border);border-radius:var(--awe-card-border-radius);padding:var(--sp-3);width:120px;" placeholder="Merchant"/></label>
+            </div>
+            <table style="width:100%;border-collapse:collapse;margin-bottom:var(--sp-5);">
+              <thead>
+                <tr style="background:var(--N-100);">
+                  <th style="padding:var(--sp-3);font-size:var(--fs-small);color:var(--t-caption);">Date</th>
+                  <th style="padding:var(--sp-3);font-size:var(--fs-small);color:var(--t-caption);">Merchant</th>
+                  <th style="padding:var(--sp-3);font-size:var(--fs-small);color:var(--t-caption);">Amount</th>
+                  <th style="padding:var(--sp-3);font-size:var(--fs-small);color:var(--t-caption);">Balance</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="padding:var(--sp-3);">2024-06-10</td>
+                  <td style="padding:var(--sp-3);">Amazon</td>
+                  <td style="padding:var(--sp-3);color:var(--danger);">- $12.99</td>
+                  <td style="padding:var(--sp-3);">$120.00</td>
+                </tr>
+                <tr>
+                  <td style="padding:var(--sp-3);">2024-06-09</td>
+                  <td style="padding:var(--sp-3);">Starbucks</td>
+                  <td style="padding:var(--sp-3);color:var(--danger);">- $4.25</td>
+                  <td style="padding:var(--sp-3);">$132.99</td>
+                </tr>
+                <tr>
+                  <td style="padding:var(--sp-3);">2024-06-08</td>
+                  <td style="padding:var(--sp-3);">Allowance</td>
+                  <td style="padding:var(--sp-3);color:var(--icon-success);">+ $20.00</td>
+                  <td style="padding:var(--sp-3);">$137.24</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="action-row">
+              <button class="btn secondary" onclick="showS('s9')">Filter Activity</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- SCREEN 9: Activity Filter Sub-Screen -->
+    <div id="s9" class="screen">
+      <div class="page-content">
+        <div class="awe-card auto" style="max-width:420px;margin:40px auto;">
+          <div style="padding:var(--sp-7);">
+            <h2 class="page-title" style="font-size:var(--fs-sub1);margin-bottom:var(--sp-5);">Activity Filters</h2>
+            <div style="display:flex;flex-direction:column;gap:var(--sp-3);margin-bottom:var(--sp-7);">
+              <label>Date Range: <input type="date" style="font-size:var(--fs-small);border:1px solid var(--input-border);border-radius:var(--awe-card-border-radius);padding:var(--sp-3);"/> to <input type="date" style="font-size:var(--fs-small);border:1px solid var(--input-border);border-radius:var(--awe-card-border-radius);padding:var(--sp-3);"/></label>
+              <label>Merchant: <input type="text" style="font-size:var(--fs-small);border:1px solid var(--input-border);border-radius:var(--awe-card-border-radius);padding:var(--sp-3);width:120px;" placeholder="Merchant"/></label>
+              <label>Amount Min: <input type="number" style="font-size:var(--fs-small);border:1px solid var(--input-border);border-radius:var(--awe-card-border-radius);padding:var(--sp-3);width:80px;"/></label>
+              <label>Amount Max: <input type="number" style="font-size:var(--fs-small);border:1px solid var(--input-border);border-radius:var(--awe-card-border-radius);padding:var(--sp-3);width:80px;"/></label>
+            </div>
+            <div class="action-row" style="gap:var(--sp-4);">
+              <button class="btn primary" onclick="showS('s8')">Apply Filters</button>
+              <button class="btn secondary" onclick="showS('s8')">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- SCREEN 10: Account Overview Pop-Up -->
+    <div id="s10" class="screen">
+      <div class="page-content">
+        <div class="awe-card auto" style="max-width:420px;margin:40px auto;">
+          <div style="padding:var(--sp-7);">
+            <h2 class="page-title" style="font-size:var(--fs-sub1);margin-bottom:var(--sp-5);">Account Overview</h2>
+            <div style="display:flex;flex-direction:column;gap:var(--sp-3);">
+              <div style="display:flex;justify-content:space-between;"><span>Parent Checking</span><span>$10.00</span></div>
+              <div style="display:flex;justify-content:space-between;"><span>Parent Savings</span><span>$2,000.00</span></div>
+            </div>
+            <div class="action-row" style="margin-top:var(--sp-5);gap:var(--sp-4);">
+              <button class="btn secondary small" onclick="showS('s2')">Back to Transfer</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<script>
+  function showS(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  function setNav(el, id) {
+    document.querySelectorAll('.sidebar li').forEach(li => {
+      li.classList.remove('active');
+      const dot = li.querySelector('.nav-dot');
+      if (dot) dot.remove();
+    });
+    el.classList.add('active');
+    const dot = document.createElement('div');
+    dot.className = 'nav-dot';
+    el.appendChild(dot);
+    showS(id);
+  }
+</script>
+</body>
+</html>
